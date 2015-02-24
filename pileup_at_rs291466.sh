@@ -10,12 +10,12 @@ qsub -N $1_2.fastqConvert -V -cwd -b y "zcat $1_2.fastq.gz | sed -n '1~4s/^@/>/p
 
 # align with chr2 enhanced with ase and straight hg19 chr2
 # star 2.4.0j
-qsub -hold_jid $1_1.fastqConvert,$1_2.fastqConvert -N $1.enhance.align -b y -cwd -V -l mem_free=3G -l h_vmem=3G -pe make-dedicated 10 \
+qsub -hold_jid $1_1.fastqConvert,$1_2.fastqConvert -N $1.enhance.align -b y -cwd -V -l mem_free=3G -l h_vmem=3G -pe make-dedicated 16 \
 	"/home/mcgaugheyd/Software/STAR-STAR_2.4.0j/bin/Linux_x86_64_static/./STAR \
 	--genomeDir /cluster/ifs/projects/brody/rs291466_hibch_1000genomes_rna-seq/star_ase_enhanced_chr2/ \
 	--readFilesIn $1_1.fasta $1_2.fasta --runThreadN 10 --genomeLoad NoSharedMemory --outFileNamePrefix $1.enhanced.chr2.";
 
-qsub -hold_jid $1_1.fastqConvert,$1_2.fastqConvert -N $1.align -b y -cwd -V -l mem_free=3G -l h_vmem=3G -pe make-dedicated 10  \
+qsub -hold_jid $1_1.fastqConvert,$1_2.fastqConvert -N $1.align -b y -cwd -V -l mem_free=3G -l h_vmem=3G -pe make-dedicated 16  \
 	"/home/mcgaugheyd/Software/STAR-STAR_2.4.0j/bin/Linux_x86_64_static/./STAR \
 	--genomeDir /cluster/ifs/projects/brody/rs291466_hibch_1000genomes_rna-seq/star_chr2/ \
 	--readFilesIn $1_1.fasta $1_2.fasta --runThreadN 10 --genomeLoad NoSharedMemory --outFileNamePrefix $1.chr2.";
