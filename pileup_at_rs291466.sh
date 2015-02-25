@@ -37,5 +37,6 @@ qsub -hold_jid $1.sam2bam -N $1.mpileup -b y -cwd -V \
 #move/delete files
 qsub -hold_jid $1.enhance.mpileup,$1.mpileup -N $1.Logs -V -cwd -b y "mv $1*.Log*out star_log";
 qsub -hold_jid $1.enhance.mpileup,$1.mpileup -N $1.remove.qual -V -cwd -b y "rm $1*qual";
-qsub -hold_jid $1.enhance.mpileup,$1.mpileup,$1.Logs,$1.remove.qual -N $1.sge.log.error -V -cwd -b y \
+qsub -hold_jid $1.enhance.mpileup,$1.mpileup -N $1.remove.fasta -V -cwd -b y "rm $1.fasta";
+qsub -hold_jid $1.enhance.mpileup,$1.mpileup,$1.Logs,$1.remove.qual,$1.remove.fasta -N $1.sge.log.error -V -cwd -b y \
 	"find -maxdepth 1 | grep -P '$1.*\d\d\d' | xargs -I{} mv {} sge_log_errors/";
